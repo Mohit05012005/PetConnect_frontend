@@ -1,16 +1,174 @@
-# React + Vite
+🐾 Pet Marketplace – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern MERN-based pet marketplace web app built with React, featuring user authentication (Signup/Login) and Google OAuth integration via Passport.js.
 
-Currently, two official plugins are available:
+🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✅ User signup and login
+✅ Google login (OAuth 2.0)
+✅ Protected routes (dashboard, user profile, etc.)
+✅ Axios-based API communication
+✅ Context-based authentication state (React Context)
+✅ Responsive UI built with React Router and TailwindCSS
 
-## React Compiler
+🧱 Project Structure
+frontend/
+│
+├── src/
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── ProtectedRoute.jsx
+│   │   ├── Footer.jsx
+│   │   └── Dashboard.jsx
+│   │
+│   ├── context/
+│   │   └── AuthContext.jsx
+│   │
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── Login.jsx
+│   │   ├── SignUp.jsx
+│   │   ├── SellPet.jsx
+│   │   └── PetDetail.jsx
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── axiosInstance.js
+│
+├── .env
+├── package.json
+└── vite.config.js
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+⚙️ Setup Instructions
+1️⃣ Clone the repository
+git clone https://github.com/yourusername/pet-marketplace-frontend.git
+cd pet-marketplace-frontend
 
-## Expanding the ESLint configuration
+2️⃣ Install dependencies
+npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3️⃣ Create environment file
+
+Create a .env file in the root directory and add:
+
+VITE_BACKEND_URL=http://localhost:9000
+
+
+This should point to your backend server.
+
+4️⃣ Start the development server
+npm run dev
+
+
+The app will start at
+👉 http://localhost:5173
+
+🔐 Google Login Flow (How It Works)
+Step-by-step process:
+
+User clicks “Continue with Google” in the React app.
+
+The frontend redirects to:
+
+window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/google`;
+
+
+The backend (via Passport.js) sends the user to Google’s OAuth screen.
+
+Google authenticates the user and redirects to your backend callback route:
+http://localhost:9000/api/v1/users/google/callback
+
+The backend:
+
+Checks if the user exists or creates a new user
+
+Generates a JWT token
+
+Sends it back as JSON { token, user }
+
+The frontend receives the token via Axios and saves it in localStorage.
+
+The user stays logged in for all protected routes.
+
+🔑 Example: Axios setup for authentication
+// src/axiosInstance.js
+import axios from "axios";
+
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_BACKEND_URL,
+  withCredentials: true,
+});
+
+export default axiosInstance;
+
+
+Usage example:
+
+import axios from "../axiosInstance";
+
+const res = await axios.post("/api/v1/users/login", {
+  email,
+  password,
+});
+
+🔄 Example: Google Login Button
+import React from "react";
+
+const GoogleLoginButton = () => {
+  const handleGoogleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/google`;
+  };
+
+  return (
+    <button
+      onClick={handleGoogleLogin}
+      className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+    >
+      Continue with Google
+    </button>
+  );
+};
+
+export default GoogleLoginButton;
+
+🧠 Tech Stack
+
+Frontend:
+
+React (Vite)
+
+React Router
+
+Axios
+
+Context API
+
+TailwindCSS / CSS Modules
+
+Backend:
+
+Node.js + Express
+
+MongoDB + Mongoose
+
+Passport.js (Google OAuth)
+
+JWT Authentication
+
+📁 Related Backend Repo
+
+👉 Pet Marketplace Backend
+
+Contains the Express + Passport + MongoDB logic for handling Google OAuth and JWT authentication.
+
+💡 Future Enhancements
+
+Pet listing and filtering
+
+Seller dashboard and analytics
+
+Secure image uploads (Cloudinary or Firebase)
+
+Passwordless login with Google only
+
+Role-based access (admin / seller / buyer)
