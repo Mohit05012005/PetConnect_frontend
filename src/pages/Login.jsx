@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { FcGoogle } from "react-icons/fc";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -86,7 +87,18 @@ const Login = () => {
         </button>
       </form>
       <p className="flex flex-row gap-2">Create a new account <p onClick={transfer} className="text-blue-700">Sign up</p> </p>
-      <p className="flex flex-row gap-4 bg-red-500 p-2 rounded mt-2 hover:bg-red-800" onClick={logGoogle}>Login with Google</p>
+  <button
+  onClick={logGoogle}
+  className="
+  flex
+  flex-row
+   mt-4
+   gap-3
+  "
+>
+  <FcGoogle size={25} />
+  <span className="font-medium">Sign in with Google</span>
+</button>
     </div>
   );
 };

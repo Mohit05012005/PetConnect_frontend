@@ -52,7 +52,7 @@ const Home = () => {
               onClick={() => navigate(`/pets/${pet._id}`)} // for single pet page later
             >
               <img
-                src={pet.PetImg || "https://placehold.co/300x200"}
+                src={`${API.defaults.baseURL}/${pet.PetImg}` || "https://placehold.co/300x200"}
                 alt={pet.PetName}
                 className="w-full h-40 object-cover rounded-md mb-3"
               />

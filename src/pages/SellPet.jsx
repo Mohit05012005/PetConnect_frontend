@@ -11,7 +11,7 @@ const SellPet = () => {
     Species: "",
     PetAge: "",
     Licence: "",
-    PetImg: "",
+    PetImg: null, // Image file (not string)
     Address: "",
     PhoneNumber: "",
     mailAddress: "",
@@ -23,8 +23,13 @@ const SellPet = () => {
 
   // handle input change
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target;
+
+    if (name === "PetImg") {
+      setFormData((prev) => ({ ...prev, PetImg: files[0] })); // store file object
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   // handle form submit
@@ -34,10 +39,19 @@ const SellPet = () => {
     setError("");
 
     try {
-      const res = await API.post("/pets", formData);
+      // Prepare multipart form data
+      const data = new FormData();
+      Object.keys(formData).forEach((key) => {
+        data.append(key, formData[key]);
+      });
+
+      const res = await API.post("/pets", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
       if (res.data.status === "success") {
         alert("🐾 Your pet has been listed successfully!");
-        navigate("/"); // redirect to homepage
+        navigate("/");
       }
     } catch (err) {
       console.error(err);
@@ -55,25 +69,40 @@ const SellPet = () => {
         </h1>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+          
           {Object.keys(formData).map((key) => (
             <div key={key}>
               <label className="block text-gray-700 font-semibold mb-1 capitalize">
                 {key.replace(/([A-Z])/g, " $1")}
               </label>
-              <input
-                type={
-                  key.toLowerCase().includes("age") ||
-                  key.toLowerCase().includes("number")
-                    ? "number"
-                    : "text"
-                }
-                name={key}
-                value={formData[key]}
-                onChange={handleChange}
-                required={!["Licence"].includes(key)} // Licence optional
-                className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-teal-500"
-                placeholder={`Enter ${key.replace(/([A-Z])/g, " $1").toLowerCase()}`}
-              />
+
+              {key === "PetImg" ? (
+                // Image Upload Input
+                <input
+                  type="file"
+                  name="PetImg"
+                  accept="image/*"
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 p-2 rounded-lg"
+                  required
+                />
+              ) : (
+                // Normal Inputs
+                <input
+                  type={
+                    key.toLowerCase().includes("age") ||
+                    key.toLowerCase().includes("number")
+                      ? "number"
+                      : "text"
+                  }
+                  name={key}
+                  value={formData[key] || ""}
+                  onChange={handleChange}
+                  required={!["Licence"].includes(key)} // Licence optional
+                  className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  placeholder={`Enter ${key.replace(/([A-Z])/g, " $1").toLowerCase()}`}
+                />
+              )}
             </div>
           ))}
 
@@ -93,4 +122,5 @@ const SellPet = () => {
 };
 
 export default SellPet;
+
 

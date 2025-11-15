@@ -66,7 +66,7 @@ const Dashboard = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-teal-700">🐾 My Pets for Sale</h2>
           <button
-            onClick={() => navigate("/sellpet")}
+            onClick={() => navigate("/pets-sell")}
             className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg"
           >
             + Add New Pet
