@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:9000", // your Express server
+  baseURL: "https://pet-application-1.onrender.com", // your Express server
 });
 
 API.interceptors.request.use((req) => {
