@@ -7,14 +7,12 @@ const SellPet = () => {
 
   const [formData, setFormData] = useState({
     PetName: "",
-    OwnerName: "",
     Species: "",
     PetAge: "",
     Licence: "",
     PetImg: null, // Image file (not string)
     Address: "",
     PhoneNumber: "",
-    mailAddress: "",
     petDescription: "",
   });
 
@@ -49,13 +47,16 @@ const SellPet = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+
       if (res.data.status === "success") {
         alert("🐾 Your pet has been listed successfully!");
         navigate("/");
       }
     } catch (err) {
       console.error(err);
-      setError("❌ Failed to list your pet. Please check all details and try again.");
+      setError(
+        "❌ Failed to list your pet. Please check all details and try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -69,7 +70,6 @@ const SellPet = () => {
         </h1>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-          
           {Object.keys(formData).map((key) => (
             <div key={key}>
               <label className="block text-gray-700 font-semibold mb-1 capitalize">
@@ -100,7 +100,9 @@ const SellPet = () => {
                   onChange={handleChange}
                   required={!["Licence"].includes(key)} // Licence optional
                   className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-teal-500"
-                  placeholder={`Enter ${key.replace(/([A-Z])/g, " $1").toLowerCase()}`}
+                  placeholder={`Enter ${key
+                    .replace(/([A-Z])/g, " $1")
+                    .toLowerCase()}`}
                 />
               )}
             </div>
@@ -122,5 +124,3 @@ const SellPet = () => {
 };
 
 export default SellPet;
-
-
