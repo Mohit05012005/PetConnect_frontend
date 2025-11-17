@@ -31,7 +31,7 @@ const Login = () => {
         navigate("/signup");
   }
   const logGoogle = (e)=>{
-    window.open("http://localhost:9000/auth/google","_self");
+    window.open("https://petconnect-y601.onrender.com/auth/google","_self");
   }
 
 
