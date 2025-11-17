@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 const SignUp = () => {
+  const {login} = useContext(AuthContext);
     const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -27,6 +30,7 @@ const SignUp = () => {
       // send request to backend
       const res = await API.post("/auth/signup", formData);
     //   console.log("Response:", res.data);
+       login(res.data.token);
       alert("Signup successful! 🎉");
       setFormData({ name: "", email: "", password: "", confirmpassword: "" });
       navigate("/");
