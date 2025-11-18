@@ -18,20 +18,32 @@ function App() {
       <AuthProvider>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home/>} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/pets/:id" element={<PetDetail/>} />
-          <Route path="/pets-sell" element={<ProtectedRoute><SellPet/></ProtectedRoute>}/>
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
-          <Route path= "/login/success" element={<Login/>}/>
-          
+          <Route path="/pets/:id" element={<PetDetail />} />
+          <Route
+            path="/pets-sell"
+            element={
+              <ProtectedRoute>
+                <SellPet />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login/success" element={<Login />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </AuthProvider>
     </BrowserRouter>
   );
 }
 
 export default App;
-
