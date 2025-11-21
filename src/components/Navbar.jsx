@@ -22,16 +22,19 @@
 
 // export default Navbar;
 
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState,useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-
+import { Navigate } from "react-router-dom";
 // Optional: nice icons (you can remove if you don't want them)
 import { Menu, X, Home, PlusCircle, User, LogOut, PawPrint } from "lucide-react";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-
+  const navigate = useNavigate();
+   useEffect(()=>{
+      navigate('/login');
+   },[user]);
   // This controls whether the mobile menu is open or closed
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
