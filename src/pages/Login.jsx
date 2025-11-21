@@ -96,7 +96,7 @@ const Login = () => {
    gap-3
   "
 >
-  <FcGoogle size={25} />
+  {/* <FcGoogle size={25} /> */}
   {/* <span className="font-medium">Sign in with Google</span> */}
 </button>
     </div>
