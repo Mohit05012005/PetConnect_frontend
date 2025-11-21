@@ -97,7 +97,7 @@ const Login = () => {
   "
 >
   <FcGoogle size={25} />
-  <span className="font-medium">Sign in with Google</span>
+  {/* <span className="font-medium">Sign in with Google</span> */}
 </button>
     </div>
   );
